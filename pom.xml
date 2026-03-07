@@ -30,7 +30,7 @@
     <module>inventory-service</module>
     <module>notification-service</module>
     <module>userservice</module>
-    <!-- <module>providerservice</module> -->
+    <module>provider-service</module>
     <module>discovery-server</module>
     <module>api-gateway</module>
   </modules>
