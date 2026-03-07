@@ -20,7 +20,7 @@ public class Catalog {
     private String title;
     private String description;
     private Double price;
-
+    private String imageUrl; 
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private Provider provider; // Chaque service appartient à un prestataire

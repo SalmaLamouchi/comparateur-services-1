@@ -1,9 +1,10 @@
 package com.micorservices.providerservice.repository;
 
-import java.security.Provider;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.micorservices.providerservice.model.Provider;
 
     @Repository
 public interface ProviderRepository extends JpaRepository<Provider, Long> {}
