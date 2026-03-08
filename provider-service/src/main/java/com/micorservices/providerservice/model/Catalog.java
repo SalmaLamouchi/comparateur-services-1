@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "t_catalogs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

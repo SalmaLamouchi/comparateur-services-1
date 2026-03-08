@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.micorservices.providerservice.dto.CatalogDto;
 
+import java.util.List;
+
 public interface CatalogService {
     CatalogDto create(CatalogDto dto);
     CatalogDto update(Long id, CatalogDto dto);
