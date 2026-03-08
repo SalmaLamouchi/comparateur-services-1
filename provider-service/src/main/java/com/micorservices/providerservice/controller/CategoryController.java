@@ -18,36 +18,32 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryDto categoryDTO) {
-        CategoryDto saved = categoryService.save(categoryDTO);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<CategoryDto>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.findAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.findById(id));
+    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.create(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDTO) {
-        return ResponseEntity.ok(categoryService.update(id, categoryDTO));
+    public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody CategoryDto dto) {
+        return ResponseEntity.ok(categoryService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<CategoryDto> getCategoryByName(@RequestParam String name) {
-        return categoryService.findByName(name)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.getById(id));
     }
+
+    @GetMapping
+    public ResponseEntity<List<CategoryDto>> getAll() {
+        return ResponseEntity.ok(categoryService.getAll());
+    }
+    @GetMapping("/search")
+public ResponseEntity<CategoryDto> getByName(@RequestParam String name) {
+    return ResponseEntity.ok(categoryService.getByName(name));
+}
 }

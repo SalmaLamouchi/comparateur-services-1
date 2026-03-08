@@ -1,34 +1,32 @@
 package com.micorservices.providerservice.model;
+// Availability.java
 
+import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Builder
 public class Availability {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    
-    private int maxSimultaneousServices; // Nombre max de clients en même temps
-    private int currentBookingsCount = 0; // Compteur actuel
-    
-    private boolean isBooked = false; // Devient true si currentBookingsCount == maxSimultaneousServices
 
-    @ManyToOne
-    @JoinColumn(name = "provider_id")
-    private Provider provider;
+    private int maxSimultaneousServices;
+
+    @Builder.Default                  // ← nécessaire pour que la valeur par défaut fonctionne avec @Builder
+    private int currentBookingsCount = 0;
+
+    @Builder.Default                  // ← idem
+    private boolean isBooked = false;
+
+    @Column(nullable = false)
+    private Long userId;
 }

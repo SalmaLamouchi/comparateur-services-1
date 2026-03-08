@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
-    CategoryDto save(CategoryDto categoryDTO);
-    CategoryDto update(Long id, CategoryDto categoryDTO); 
-    List<CategoryDto> findAll();
-    CategoryDto findById(Long id);
-    Optional<CategoryDto> findByName(String name); 
+    CategoryDto create(CategoryDto dto);
+    CategoryDto update(Long id, CategoryDto dto);
     void delete(Long id);
+    CategoryDto getById(Long id);
+    List<CategoryDto> getAll();
+    CategoryDto getByName(String name);
 }
