@@ -9,9 +9,10 @@ import com.micorservices.providerservice.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-// ↑ java.util.Locale.Category supprimé
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +23,12 @@ public class CatalogServiceImpl implements CatalogService {
 
     @Override
     public CatalogDto create(CatalogDto dto) {
-        Category category = categoryRepository.findById(dto.categoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Set<Category> categories = new HashSet<>();
+        for (Long categoryId : dto.categoryIds()) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Category not found: " + categoryId));
+            categories.add(category);
+        }
 
         Catalog saved = catalogRepository.save(
             Catalog.builder()
@@ -32,7 +37,7 @@ public class CatalogServiceImpl implements CatalogService {
                 .price(dto.price())
                 .imageUrl(dto.imageUrl())
                 .userId(dto.userId())
-                .category(category)
+                .categories(categories)
                 .build()
         );
         return toDto(saved);
@@ -43,15 +48,19 @@ public class CatalogServiceImpl implements CatalogService {
         Catalog catalog = catalogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Catalog not found"));
 
-        Category category = categoryRepository.findById(dto.categoryId())
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+        Set<Category> categories = new HashSet<>();
+        for (Long categoryId : dto.categoryIds()) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Category not found: " + categoryId));
+            categories.add(category);
+        }
 
         catalog.setTitle(dto.title());
         catalog.setDescription(dto.description());
         catalog.setPrice(dto.price());
         catalog.setImageUrl(dto.imageUrl());
         catalog.setUserId(dto.userId());
-        catalog.setCategory(category);
+        catalog.setCategories(categories);
 
         return toDto(catalogRepository.save(catalog));
     }
@@ -85,11 +94,12 @@ public class CatalogServiceImpl implements CatalogService {
     }
 
     private CatalogDto toDto(Catalog c) {
-        CategoryDto catDto = new CategoryDto(
-            c.getCategory().getId(),
-            c.getCategory().getName(),
-            c.getCategory().getDescription()
-        );
+        List<CategoryDto> catDtos = c.getCategories().stream()
+                .map(cat -> new CategoryDto(cat.getId(), cat.getName(), cat.getDescription()))
+                .collect(Collectors.toList());
+        List<Long> categoryIds = c.getCategories().stream()
+                .map(Category::getId)
+                .collect(Collectors.toList());
         return new CatalogDto(
             c.getId(),
             c.getTitle(),
@@ -97,8 +107,8 @@ public class CatalogServiceImpl implements CatalogService {
             c.getImageUrl(),
             c.getPrice(),
             c.getUserId(),
-            c.getCategory().getId(),
-            catDto
+            categoryIds,
+            catDtos
         );
     }
 }

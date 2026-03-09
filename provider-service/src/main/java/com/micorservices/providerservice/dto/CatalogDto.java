@@ -1,6 +1,6 @@
 package com.micorservices.providerservice.dto;
 
-
+import java.util.List;
 
 public record CatalogDto(
     Long id,
@@ -9,6 +9,6 @@ public record CatalogDto(
     String imageUrl,
     Double price,
     Long userId,
-    Long categoryId,
-    CategoryDto category
+    List<Long> categoryIds,
+    List<CategoryDto> categories
 ) {}

@@ -4,6 +4,9 @@ package com.micorservices.providerservice.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "t_catalogs")
 @Data
@@ -24,7 +27,11 @@ public class Catalog {
     @Column(nullable = false)
     private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @ManyToMany
+    @JoinTable(
+        name = "catalog_categories",
+        joinColumns = @JoinColumn(name = "catalog_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
 }

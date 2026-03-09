@@ -9,5 +9,4 @@ import java.util.List;
 
 public interface CatalogRepository extends JpaRepository<Catalog, Long> {
     List<Catalog> findByUserId(Long userId);
-    List<Catalog> findByCategoryId(Long categoryId);
 }
