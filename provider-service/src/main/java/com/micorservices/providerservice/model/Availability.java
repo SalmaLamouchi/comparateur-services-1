@@ -1,5 +1,4 @@
 package com.micorservices.providerservice.model;
-// Availability.java
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,10 +20,10 @@ public class Availability {
 
     private int maxSimultaneousServices;
 
-    @Builder.Default                  // ← nécessaire pour que la valeur par défaut fonctionne avec @Builder
+    @Builder.Default                  
     private int currentBookingsCount = 0;
 
-    @Builder.Default                  // ← idem
+    @Builder.Default              
     private boolean isBooked = false;
 
     @Column(nullable = false)
