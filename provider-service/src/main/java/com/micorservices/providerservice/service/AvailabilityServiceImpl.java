@@ -2,7 +2,6 @@ package com.micorservices.providerservice.service;
 import com.micorservices.providerservice.dto.AvailabilityDto;
 import com.micorservices.providerservice.model.Availability;
 import com.micorservices.providerservice.repository.AvailabilityRepository;
-import com.micorservices.providerservice.service.AvailabilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
